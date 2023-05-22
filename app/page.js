@@ -9,6 +9,7 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const [showValidationMessage, setShowValidationMessage] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showNoBlogsMessage, setShowNoBlogsMessage] = useState(false);
 
   const handleSearchSubmit = async (event) => {
     event.preventDefault();
@@ -25,6 +26,18 @@ export default function Home() {
       }
     }
   };
+
+  useEffect(() => {
+    if (posts.length === 0) {
+      const timeout = setTimeout(() => {
+        setShowNoBlogsMessage(true);
+      }, 2000);
+
+      return () => clearTimeout(timeout);
+    } else {
+      setShowNoBlogsMessage(false);
+    }
+  }, [posts]);
 
   const getData= async ()=>{
     const posts = await getPosts();
@@ -85,7 +98,7 @@ export default function Home() {
       <div className="parallax-bg absolute inset-0 bg-cover bg-center"></div>
       <div className="content flex flex-col items-center justify-center text-white">
         <h1 className=" text-3xl  md:text-4xl  font-bold mb-4">Welcome to Blos-Spot</h1>
-        <p className="text-xl mb-6">Find the Blog you're looking for</p>
+        <p className="text-xl mb-6">Find the Blog you&apos;re looking for</p>
       </div>
     </div>
       <div className="flex justify-center mb-8 ">
@@ -107,7 +120,7 @@ export default function Home() {
        
 
         </div>
-      {posts && posts.length?(
+      { posts.length?(
         <div className="mx-auto px-10 mb-8">
       
         <div className="grid grid-cols-1  xl:justify-center lg:grid-cols-3 md:grid-cols-2 gap-12">
@@ -139,14 +152,18 @@ export default function Home() {
             </button>
         </div>
       </div>
-      ):(
-          <div className='flex flex-col m-auto'>
-            <p className=' text-center font-bold xl:text-4xl text-md lg:text-md mb-8 '>No Blogs related to {searchQuery} yet</p>
-            <img style={{width:"40%", margin:'auto'}} src="https://img.freepik.com/free-vector/organic-flat-blog-post-illustration-with-people_23-2148955260.jpg?w=740&t=st=1684612694~exp=1684613294~hmac=e66e80ae0ebe1aca8a8a6f051a78bb20c020000a92eeb12a996effaa074c7bae" alt="No Blogs"/>
-          </div>
-      )
-        
-      }
+      ):showNoBlogsMessage ? (
+        <div className='flex flex-col m-auto'>
+          <p className='text-center font-bold xl:text-4xl text-md lg:text-md mb-8'>
+            No Blogs related to {searchQuery} yet
+          </p>
+          <img
+            style={{ width: '40%', margin: 'auto' }}
+            src='https://img.freepik.com/free-vector/organic-flat-blog-post-illustration-with-people_23-2148955260.jpg?w=740&t=st=1684612694~exp=1684613294~hmac=e66e80ae0ebe1aca8a8a6f051a78bb20c020000a92eeb12a996effaa074c7bae'
+            alt='No Blogs'
+          />
+        </div>
+      ) : null}
     
     </div>
     </main>

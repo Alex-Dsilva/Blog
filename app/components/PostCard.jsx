@@ -7,9 +7,9 @@ const PostCard = ({ post }) => {
     <div className="relative overflow-hidden shadow-md mb-6">
           <img src={post.image} alt="" className="object-top h-full w-full object-cover  shadow-lg rounded-t-lg lg:rounded-lg" />
         </div>
-    <h1 className="transition duration-700 text-center mb-3 p-2 cursor-pointer hover:text-pink-600 text-2xl font-semibold">
+    <p className="transition duration-700 text-center mb-3 p-2 cursor-pointer hover:text-pink-600 text-xl font-semibold">
       <Link href={`/post/${post.id}`}>{post.title}</Link>
-    </h1>
+    </p>
     <div className="block lg:flex text-center items-center justify-center mb-4 w-full">
       <div className="flex items-center justify-center mb-2 lg:mb-0 w-full lg:w-auto mr-8 ">
       <img
